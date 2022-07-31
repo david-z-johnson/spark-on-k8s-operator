@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v3.1.1
+ARG SPARK_IMAGE=registry.cn-hongkong.aliyuncs.com/global_zyw/local_build_repository:spark-operator_spark-3.2.2_hadoop-3.3.3
 
 FROM golang:1.15.2-alpine as builder
 
