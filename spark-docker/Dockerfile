@@ -14,21 +14,27 @@
 # limitations under the License.
 #
 
-ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v3.1.1
+ARG SPARK_IMAGE=apache/spark:v3.2.2
 FROM ${SPARK_IMAGE}
 
 # Switch to user root so we can add additional jars and configuration files.
 USER root
 
-# Setup dependencies for Google Cloud Storage access.
-RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
-ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
-RUN chmod 644 $SPARK_HOME/jars/guava-23.0.jar
-# Add the connector jar needed to access Google Cloud Storage using the Hadoop FileSystem API.
-ADD https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar $SPARK_HOME/jars
-RUN chmod 644 $SPARK_HOME/jars/gcs-connector-latest-hadoop2.jar
-ADD https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-latest_2.12.jar $SPARK_HOME/jars
-RUN chmod 644 $SPARK_HOME/jars/spark-bigquery-latest_2.12.jar
+# Setup dependencies for hadoop aws
+ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.1/hadoop-aws-3.3.1.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/hadoop-aws-3.3.1.jar
+ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/aws-java-sdk-bundle-1.11.901.jar
+ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.1/hadoop-common-3.3.1.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/hadoop-common-3.3.1.jar
+ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.1/hadoop-mapreduce-client-core-3.3.1.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/hadoop-mapreduce-client-core-3.3.1.jar
+
+# Setup dependencies for delta lake
+ADD https://repo1.maven.org/maven2/io/delta/delta-core_2.12/2.0.0/delta-core_2.12-2.0.0.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/delta-core_2.12-2.0.0.jar
+ADD https://repo1.maven.org/maven2/io/delta/delta-storage/2.0.0/delta-storage-2.0.0.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/delta-storage-2.0.0.jar
 
 # Setup for the Prometheus JMX exporter.
 # Add the Prometheus JMX exporter Java agent jar for exposing metrics sent to the JmxSink to Prometheus.
