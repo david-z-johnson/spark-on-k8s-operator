@@ -17,15 +17,17 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: spark-pi
-  namespace: default
+  namespace: spark-operator 
 spec:
   type: Scala
   mode: cluster
-  image: "gcr.io/spark-operator/spark:v3.1.1"
+  image: "registry.cn-hongkong.aliyuncs.com/global_zyw/spark-on-k8s-spark:spark_v3.2.2-hadoop_v3.3.1-aliyun_apt_source"
   imagePullPolicy: Always
+  imagePullSecrets:
+    - aliyun-registry-key
   mainClass: org.apache.spark.examples.SparkPi
-  mainApplicationFile: "local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar"
-  sparkVersion: "3.1.1"
+  mainApplicationFile: "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.2.jar"
+  sparkVersion: "3.2.2"
   restartPolicy:
     type: Never
   volumes:
@@ -38,7 +40,7 @@ spec:
     coreLimit: "1200m"
     memory: "512m"
     labels:
-      version: 3.1.1
+      version: 3.2.2
     serviceAccount: spark
     volumeMounts:
       - name: "test-volume"
@@ -48,7 +50,8 @@ spec:
     instances: 1
     memory: "512m"
     labels:
-      version: 3.1.1
+      version: 3.2.2
+    serviceAccount: spark
     volumeMounts:
       - name: "test-volume"
         mountPath: "/tmp"
