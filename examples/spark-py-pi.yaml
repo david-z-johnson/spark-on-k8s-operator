@@ -25,7 +25,7 @@ spec:
   type: Python
   mode: cluster
   pythonVersion: "3"
-  image: "registry.cn-hongkong.aliyuncs.com/global_zyw/spark-on-k8s-spark:spark_v3.2.2-hadoop_v3.3.1-aliyun_apt_source"
+  image: "registry.cn-hongkong.aliyuncs.com/global_zyw/spark-on-k8s-spark-operator:spark-v3.2.2-s3-delta-lake"
   imagePullPolicy: Always
   imagePullSecrets:
     - aliyun-registry-key
