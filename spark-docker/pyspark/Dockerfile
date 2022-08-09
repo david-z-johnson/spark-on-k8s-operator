@@ -36,6 +36,10 @@ RUN chmod 644 $SPARK_HOME/jars/delta-core_2.12-2.0.0.jar
 ADD https://repo1.maven.org/maven2/io/delta/delta-storage/2.0.0/delta-storage-2.0.0.jar $SPARK_HOME/jars
 RUN chmod 644 $SPARK_HOME/jars/delta-storage-2.0.0.jar
 
+# Setup dependencies for mysql jdbc
+ADD https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar $SPARK_HOME/jars
+RUN chmod 644 $SPARK_HOME/jars/mysql-connector-java-5.1.49.jar
+
 # Setup for the Prometheus JMX exporter.
 # Add the Prometheus JMX exporter Java agent jar for exposing metrics sent to the JmxSink to Prometheus.
 ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar /prometheus/
